@@ -170,6 +170,7 @@ struct FrameActionBody {
     bytes url;
     uint32 button_index;
     CastId cast_id;
+    bytes input_text;
 }
 
 library FrameActionBodyCodec {
@@ -182,6 +183,9 @@ library FrameActionBodyCodec {
         bytes button_index;
         CastIdCodec.CastId__Encoded__Nested cast_id;
         bytes cast_id__Encoded;
+        bytes input_text__Key;
+        bytes input_text__Length;
+        bytes input_text;
     }
 
     // Holds encoded version of nested message
@@ -205,8 +209,25 @@ library FrameActionBodyCodec {
             uint64(instance.button_index) != 0 ? ProtobufLib.encode_uint32(instance.button_index) : new bytes(0);
         CastIdCodec.CastId__Encoded__Nested memory cast_id = CastIdCodec.encodeNested(3, instance.cast_id);
         bytes memory cast_id__Encoded = abi.encodePacked(cast_id.key, cast_id.length, cast_id.nestedInstance);
+        bytes memory input_text__Key =
+            instance.input_text.length > 0 ? ProtobufLib.encode_key(4, uint64(ProtobufLib.WireType.LengthDelimited)) : new bytes(0);
+        bytes memory input_text__Length =
+            instance.input_text.length > 0 ? ProtobufLib.encode_uint64(uint64(instance.input_text.length)) : new bytes(0);
+        bytes memory input_text =
+            instance.input_text.length > 0 ? bytes(instance.input_text) : new bytes(0);
 
-        return abi.encodePacked(url__Key, url__Length, url, button_index__Key, button_index, cast_id__Encoded);
+        return
+            abi.encodePacked(
+                url__Key,
+                url__Length,
+                url,
+                button_index__Key,
+                button_index,
+                cast_id__Encoded,
+                input_text__Key,
+                input_text__Length,
+                input_text
+            );
     }
 
     // Encode a nested FrameActionBody, wrapped in key and length if non-default
