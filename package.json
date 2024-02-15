@@ -1,0 +1,12 @@
+{
+  "name": "frame-verifier",
+  "version": "1.0.0",
+  "author": "wilsoncusack",
+  "bugs": "https://github.com/wilsoncusack/frame-verifier/issues",
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/wilsoncusack/frame-verifier#readme",
+  "license": "MIT",
+  "repository": "github.com/wilsoncusack/frame-verifier"
+}
